@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEW DAWN RP - Serveur Garry's Mod Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+        }
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-border {
+            position: relative;
+            background: #0a0a0a;
+            border-radius: 1rem;
+        }
+        
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            padding: 2px;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .hover-glow {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .section-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            min-width: 200px;
+            z-index: 1000;
+        }
+        
+        .user-dropdown.show {
+            display: block;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Background Effects -->
+    <div class="fixed inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-950/20 via-black to-purple-950/20"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">N</span>
+                    </div>
+                    <span class="text-xl font-bold">NEW DAWN <span class="gradient-text">RP</span></span>
+                </div>
+                
+                <!-- Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#accueil" class="text-gray-300 hover:text-white transition duration-300">Accueil</a>
+                    <a href="#features" class="text-gray-300 hover:text-white transition duration-300">Fonctionnalités</a>
+                    <a href="#communaute" class="text-gray-300 hover:text-white transition duration-300">Communauté</a>
+                    <a href="#boutique" class="text-gray-300 hover:text-white transition duration-300">Boutique</a>
+                </div>
+                
+                <!-- User Section -->
+                <div class="flex items-center space-x-4">
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    
+                    <!-- User Info (when logged in) -->
+                    <div id="userInfo" class="hidden relative">
+                        <button onclick="toggleUserDropdown()" class="flex items-center space-x-3 px-4 py-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition duration-300">
+                            <img id="userAvatar" src="" alt="Avatar" class="w-8 h-8 rounded-full">
+                            <span id="userName" class="text-white font-medium"></span>
+                            <i class="fas fa-chevron-down text-gray-400"></i>
+                        </button>
+                        
+                        <div id="userDropdown" class="user-dropdown">
+                            <div class="p-4 border-b border-gray-700">
+                                <div class="flex items-center space-x-3">
+                                    <img id="dropdownAvatar" src="" alt="Avatar" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <p id="dropdownName" class="text-white font-medium"></p>
+                                        <p id="dropdownSteamId" class="text-gray-400 text-sm"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-2">
+                                <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded transition duration-300">
+                                    <i class="fas fa-user mr-2"></i>
+                                    Profil
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded transition duration-300">
+                                    <i class="fas fa-shopping-cart mr-2"></i>
+                                    Mes achats
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-700/50 rounded transition duration-300">
+                                    <i class="fas fa-cog mr-2"></i>
+                                    Paramètres
+                                </a>
+                                <hr class="my-2 border-gray-700">
+                                <button onclick="logout()" class="w-full text-left px-4 py-2 text-red-400 hover:text-red-300 hover:bg-gray-700/50 rounded transition duration-300">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>
+                                    Déconnexion
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Login Button (when not logged in) -->
+                    <button id="loginBtn" onclick="connectSteam()" class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2.5 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-600/25 transition duration-300">
+                        <i class="fab fa-steam mr-2"></i>
+                        Connexion Steam
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="min-h-screen flex items-center relative z-10 pt-20">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <p class="text-indigo-400 font-medium">Bienvenue sur New Dawn RP</p>
+                        <h1 class="text-5xl md:text-7xl font-bold leading-tight">
+                            L'expérience <span class="gradient-text">Roleplay</span> ultime sur Garry's Mod
+                        </h1>
+                        <p class="text-xl text-gray-300 leading-relaxed">
+                            Rejoignez une communauté passionnée dans un univers immersif où chaque décision façonne votre histoire.
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="connectSteam()" class="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg font-medium overflow-hidden hover:shadow-xl hover:shadow-indigo-600/25 transition duration-300">
+                            <span class="relative z-10">
+                                <i class="fab fa-steam mr-2"></i>
+                                Se connecter avec Steam
+                            </span>
+                        </button>
+                        <button onclick="joinDiscord()" class="px-8 py-4 border border-gray-700 rounded-lg font-medium hover:border-gray-500 hover:bg-gray-900/50 transition duration-300">
+                            <i class="fab fa-discord mr-2"></i>
+                            Discord
+                        </button>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-8 pt-8">
+                        <div>
+                            <p class="text-3xl font-bold gradient-text stat-number">En développement</p>
+                            <p class="text-gray-400">Statut</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold gradient-text stat-number">50+</p>
+                            <p class="text-gray-400">Jobs prévus</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold gradient-text stat-number">Bientôt</p>
+                            <p class="text-gray-400">Ouverture</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Visual -->
+                <div class="relative">
+                    <div class="relative z-10 gradient-border p-8">
+                        <div class="aspect-video bg-gray-900 rounded-lg overflow-hidden">
+                            <div class="w-full h-full flex items-center justify-center">
+                                <div class="text-center space-y-4">
+                                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center float">
+                                        <i class="fas fa-play text-2xl"></i>
+                                    </div>
+                                    <p class="text-gray-400">Aperçu du gameplay</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decorative elements -->
+                    <div class="absolute -top-4 -right-4 w-24 h-24 bg-indigo-600/20 rounded-full blur-2xl"></div>
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-purple-600/20 rounded-full blur-2xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 section-fade">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Pourquoi choisir <span class="gradient-text">New Dawn RP</span></h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    Un serveur conçu pour offrir la meilleure expérience roleplay possible
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="glass rounded-2xl p-8 hover-glow section-fade">
+                    <div class="w-14 h-14 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-server text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Performance optimale</h3>
+                    <p class="text-gray-400">
+                        Serveur dédié haute performance pour une expérience fluide sans lag
+                    </p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="glass rounded-2xl p-8 hover-glow section-fade" style="transition-delay: 0.1s">
+                    <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Anti-cheat avancé</h3>
+                    <p class="text-gray-400">
+                        Protection maximale contre les tricheurs pour un jeu équitable
+                    </p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="glass rounded-2xl p-8 hover-glow section-fade" style="transition-delay: 0.2s">
+                    <div class="w-14 h-14 bg-gradient-to-br from-pink-600 to-rose-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-code text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Contenu exclusif</h3>
+                    <p class="text-gray-400">
+                        Addons et scripts personnalisés développés pour notre serveur
+                    </p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="glass rounded-2xl p-8 hover-glow section-fade" style="transition-delay: 0.3s">
+                    <div class="w-14 h-14 bg-gradient-to-br from-indigo-600 to-blue-600 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Communauté active</h3>
+                    <p class="text-gray-400">
+                        Staff présent 24/7 et événements réguliers pour animer le serveur
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shop Preview -->
+    <section id="boutique" class="py-24 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Boutique <span class="gradient-text">Premium</span></h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    Soutenez le serveur et obtenez des avantages exclusifs
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- VIP Package -->
+                <div class="glass rounded-2xl p-8 hover-glow relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-gradient-to-br from-yellow-600 to-orange-600 text-xs font-bold px-3 py-1 rounded-bl-lg">
+                        POPULAIRE
+                    </div>
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 mx-auto bg-gradient-to-br from-yellow-600 to-orange-600 rounded-2xl flex items-center justify-center mb-4">
+                            <i class="fas fa-crown text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">VIP</h3>
+                        <p class="text-gray-400">Accès privilégié</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-4xl font-bold">9.99€</p>
+                        <p class="text-gray-400">/mois</p>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Jobs VIP exclusifs</span>
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Salaire doublé</span>
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Props illimités</span>
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Tag personnalisé</span>
+                        </li>
+                    </ul>
+                    
+                    <button onclick="purchaseVIP('vip')" class="w-full py-3 bg-gradient-to-r from-yellow-600 to-orange-600 rounded-lg font-medium hover:shadow-lg transition duration-300">
+                        <i class="fas fa-shopping-cart mr-2"></i>
+                        Acheter
+                    </button>
+                </div>
+                
+                <!-- VIP+ Package -->
+                <div class="glass rounded-2xl p-8 hover-glow relative transform scale-105">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl blur opacity-30"></div>
+                    <div class="relative">
+                        <div class="text-center mb-8">
+                            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center mb-4">
+                                <i class="fas fa-gem text-3xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-2">VIP+</h3>
+                            <p class="text-gray-400">Expérience ultime</p>
+                        </div>
+                        
+                        <div class="text-center mb-8">
+                            <p class="text-4xl font-bold">19.99€</p>
+                            <p class="text-gray-400">/mois</p>
+                        </div>
+                        
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-sm">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Tous les avantages VIP</span>
+                            </li>
+                            <li class="flex items-center text-sm">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Véhicules exclusifs</span>
+                            </li>
+                            <li class="flex items-center text-sm">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Argent de départ bonus</span>
+                            </li>
+                            <li class="flex items-center text-sm">
+                                <i class="fas fa-check text-green-500 mr-3"></i>
+                                <span>Priorité connexion</span>
+                            </li>
+                        </ul>
+                        
+                        <button onclick="purchaseVIP('vip_plus')" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-600/25 transition duration-300">
+                            <i class="fas fa-shopping-cart mr-2"></i>
+                            Acheter
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Custom Package -->
+                <div class="glass rounded-2xl p-8 hover-glow">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center mb-4">
+                            <i class="fas fa-coins text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Argent IG</h3>
+                        <p class="text-gray-400">Boost économique</p>
+                    </div>
+                    
+                    <div class="text-center mb-8">
+                        <p class="text-4xl font-bold">Variable</p>
+                        <p class="text-gray-400">À partir de 4.99€</p>
+                    </div>
+                    
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>100K$ = 4.99€</span>
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>500K$ = 19.99€</span>
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>1M$ = 34.99€</span>
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check text-green-500 mr-3"></i>
+                            <span>Livraison instantanée</span>
+                        </li>
+                    </ul>
+                    
+                    <button onclick="purchaseVIP('money')" class="w-full py-3 bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg font-medium hover:shadow-lg transition duration-300">
+                        <i class="fas fa-shopping-cart mr-2"></i>
+                        Acheter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="communaute" class="py-24 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">
+                        Rejoignez notre <span class="gradient-text">communauté</span>
+                    </h2>
+                    <p class="text-xl text-gray-300 mb-8">
+                        Plus qu'un simple serveur, New Dawn RP est une véritable communauté de passionnés. 
+                        Participez à nos événements, échangez avec d'autres joueurs et créez des liens durables.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6 mb-8">
+                        <div class="glass rounded-xl p-6">
+                            <h4 class="text-2xl font-bold mb-2">1,200+</h4>
+                            <p class="text-gray-400">Membres Discord</p>
+                        </div>
+                        <div class="glass rounded-xl p-6">
+                            <h4 class="text-2xl font-bold mb-2">50+</h4>
+                            <p class="text-gray-400">Events prévus</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button onclick="joinDiscord()" class="px-6 py-3 bg-[#5865F2] rounded-lg font-medium hover:bg-[#4752C4] transition duration-300">
+                            <i class="fab fa-discord mr-2"></i>
+                            Rejoindre Discord
+                        </button>
+                        <a href="#" class="px-6 py-3 border border-gray-700 rounded-lg font-medium hover:border-gray-500 hover:bg-gray-900/50 transition duration-300">
+                            <i class="fas fa-comments mr-2"></i>
+                            Forum
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="relative">
+                    <div class="glass rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-6">Dernières actualités</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="pb-4 border-b border-gray-800">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-semibold">Développement en cours</h4>
+                                    <span class="text-sm text-gray-400">Il y a 2 jours</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Le serveur est actuellement en phase de développement avec de nouvelles fonctionnalités.</p>
+                            </div>
+                            
+                            <div class="pb-4 border-b border-gray-800">
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-semibold">Recrutement Staff</h4>
+                                    <span class="text-sm text-gray-400">Il y a 5 jours</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Nous recherchons des modérateurs et administrateurs pour notre équipe.</p>
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-start justify-between mb-2">
+                                    <h4 class="font-semibold">Système de jobs</h4>
+                                    <span class="text-sm text-gray-400">Il y a 1 semaine</span>
+                                </div>
+                                <p class="text-gray-400 text-sm">Développement de plus de 50 jobs uniques pour une expérience immersive.</p>
+                            </div>
+                        </div>
+                        
+                        <a href="actualites.html" class="w-full mt-6 py-2 text-center text-indigo-400 hover:text-indigo-300 transition duration-300 block">
+                            Voir toutes les actualités →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-gray-900 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">N</span>
+                        </div>
+                        <span class="text-xl font-bold">NEW DAWN RP</span>
+                    </div>
+                    <p class="text-gray-400">
+                        L'expérience roleplay premium sur Garry's Mod depuis 2020.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Liens rapides</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="reglement.html" class="hover:text-white transition">Règlement</a></li>
+                        <li><a href="boutique.html" class="hover:text-white transition">Boutique</a></li>
+                        <li><a href="forum.html" class="hover:text-white transition">Forum</a></li>
+                        <li><a href="wiki.html" class="hover:text-white transition">Wiki</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Communauté</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Discord</a></li>
+                        <li><a href="#" class="hover:text-white transition">Steam Group</a></li>
+                        <li><a href="#" class="hover:text-white transition">YouTube</a></li>
+                        <li><a href="#" class="hover:text-white transition">Twitter</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-server text-sm"></i>
+                            <span class="font-mono">En développement</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fab fa-discord text-sm"></i>
+                            <span>discord.gg/newdawnrp</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-envelope text-sm"></i>
+                            <span>support@newdawnrp.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-900">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">
+                        © 2025 New Dawn RP. Tous droits réservés.
+                    </p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-steam text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        let currentUser = null;
+
+        // Check login status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            
+            // Check for login/logout messages
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('login') === 'success') {
+                showNotification('Connexion réussie !', 'success');
+            } else if (urlParams.get('login') === 'error') {
+                showNotification('Erreur de connexion', 'error');
+            } else if (urlParams.get('logout') === 'success') {
+                showNotification('Déconnexion réussie', 'success');
+            }
+        });
+
+        // Check if user is logged in
+        async function checkLoginStatus() {
+            try {
+                const response = await fetch('auth/check_login.php');
+                const data = await response.json();
+                
+                if (data.logged_in) {
+                    currentUser = data;
+                    showUserInfo(data);
+                } else {
+                    showLoginButton();
+                }
+            } catch (error) {
+                console.error('Error checking login status:', error);
+                showLoginButton();
+            }
+        }
+
+        // Show user info when logged in
+        function showUserInfo(user) {
+            document.getElementById('loginBtn').style.display = 'none';
+            document.getElementById('userInfo').classList.remove('hidden');
+            
+            document.getElementById('userAvatar').src = user.avatar;
+            document.getElementById('userName').textContent = user.username;
+            document.getElementById('dropdownAvatar').src = user.avatar;
+            document.getElementById('dropdownName').textContent = user.username;
+            document.getElementById('dropdownSteamId').textContent = 'Steam ID: ' + user.steam_id;
+        }
+
+        // Show login button when not logged in
+        function showLoginButton() {
+            document.getElementById('loginBtn').style.display = 'block';
+            document.getElementById('userInfo').classList.add('hidden');
+        }
+
+        // Toggle user dropdown
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userInfo = document.getElementById('userInfo');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (!userInfo.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Steam connection function
+        function connectSteam() {
+            window.location.href = 'auth/steam_login.php';
+        }
+
+        // Logout function
+        function logout() {
+            window.location.href = 'auth/logout.php';
+        }
+
+        // Discord join function
+        function joinDiscord() {
+            window.open('https://discord.gg/newdawnrp', '_blank');
+        }
+
+        // Purchase VIP function
+        function purchaseVIP(type) {
+            if (!currentUser) {
+                showNotification('Veuillez vous connecter avec Steam pour effectuer un achat', 'error');
+                return;
+            }
+            
+            // Redirect to purchase page or show purchase modal
+            showNotification('Fonctionnalité d\'achat en cours de développement', 'info');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-24 right-6 z-50 px-6 py-4 rounded-lg shadow-lg transition-all duration-300 transform translate-x-full`;
+            
+            const colors = {
+                success: 'bg-green-600 text-white',
+                error: 'bg-red-600 text-white',
+                info: 'bg-blue-600 text-white'
+            };
+            
+            notification.className += ` ${colors[type]}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section-fade').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.fa-bars');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                console.log('Mobile menu clicked');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualités - NEW DAWN RP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+        
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+        }
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .hover-glow {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Background Effects -->
+    <div class="fixed inset-0 z-0">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-950/20 via-black to-purple-950/20"></div>
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="container mx-auto px-6">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">N</span>
+                    </div>
+                    <a href="index.html" class="text-xl font-bold">NEW DAWN <span class="gradient-text">RP</span></a>
+                </div>
+                
+                <!-- Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-white transition duration-300">Accueil</a>
+                    <a href="actualites.html" class="text-white">Actualités</a>
+                    <a href="reglement.html" class="text-gray-300 hover:text-white transition duration-300">Règlement</a>
+                    <a href="boutique.html" class="text-gray-300 hover:text-white transition duration-300">Boutique</a>
+                </div>
+                
+                <!-- CTA Button -->
+                <div class="flex items-center space-x-4">
+                    <button class="md:hidden text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <button class="bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-2.5 rounded-lg font-medium hover:shadow-lg hover:shadow-indigo-600/25 transition duration-300">
+                        Rejoindre Discord
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="pt-32 pb-16 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="text-center">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                    <span class="gradient-text">Actualités</span>
+                </h1>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    Suivez l'avancement du développement de New Dawn RP
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section class="py-16 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto space-y-8">
+                <!-- Article 1 -->
+                <article class="glass rounded-2xl p-8 hover-glow">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-code text-xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold">Développement du système de jobs</h2>
+                                <p class="text-gray-400">Il y a 2 jours • Par DevTeam</p>
+                            </div>
+                        </div>
+                        <span class="bg-blue-600/20 text-blue-400 px-3 py-1 rounded-full text-sm">En cours</span>
+                    </div>
+                    <div class="prose prose-gray max-w-none">
+                        <p class="text-gray-300 mb-4">
+                            L'équipe de développement travaille actuellement sur l'implémentation de plus de 50 jobs uniques pour offrir une expérience roleplay variée et immersive.
+                        </p>
+                        <h3 class="text-xl font-bold mb-3">Progression actuelle :</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>• Jobs civils : 15/20 terminés</li>
+                            <li>• Jobs illégaux : 8/15 terminés</li>
+                            <li>• Jobs gouvernementaux : 12/15 terminés</li>
+                            <li>• Système de progression : 80% terminé</li>
+                            <li>• Interface utilisateur : En cours de finalisation</li>
+                        </ul>
+                        <p class="text-gray-300 mt-4">
+                            Chaque job disposera de ses propres mécaniques, outils et possibilités d'évolution pour une expérience unique.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="glass rounded-2xl p-8 hover-glow">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-server text-xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold">Infrastructure serveur finalisée</h2>
+                                <p class="text-gray-400">Il y a 5 jours • Par SysAdmin</p>
+                            </div>
+                        </div>
+                        <span class="bg-green-600/20 text-green-400 px-3 py-1 rounded-full text-sm">Terminé</span>
+                    </div>
+                    <div class="prose prose-gray max-w-none">
+                        <p class="text-gray-300 mb-4">
+                            L'infrastructure serveur a été entièrement configurée et optimisée pour accueillir jusqu'à 64 joueurs simultanément avec des performances optimales.
+                        </p>
+                        <h3 class="text-xl font-bold mb-3">Spécifications techniques :</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>• CPU : Intel Xeon E5-2690 v4 (14 cores)</li>
+                            <li>• RAM : 64GB DDR4 ECC</li>
+                            <li>• Stockage : 2TB NVMe SSD</li>
+                            <li>• Bande passante : 1Gbps dédié</li>
+                            <li>• Protection DDoS : Niveau entreprise</li>
+                        </ul>
+                        <p class="text-gray-300 mt-4">
+                            Cette configuration garantit une expérience fluide et stable pour tous les joueurs, même lors des pics d'affluence.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="glass rounded-2xl p-8 hover-glow">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold">Recrutement de l'équipe staff</h2>
+                                <p class="text-gray-400">Il y a 1 semaine • Par Admin</p>
+                            </div>
+                        </div>
+                        <span class="bg-orange-600/20 text-orange-400 px-3 py-1 rounded-full text-sm">Recrutement</span>
+                    </div>
+                    <div class="prose prose-gray max-w-none">
+                        <p class="text-gray-300 mb-4">
+                            Nous recherchons activement des membres motivés pour rejoindre notre équipe de modération et d'administration avant l'ouverture du serveur.
+                        </p>
+                        <h3 class="text-xl font-bold mb-3">Postes disponibles :</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>• Modérateurs (5 postes)</li>
+                            <li>• Administrateurs (2 postes)</li>
+                            <li>• Développeur LUA (1 poste)</li>
+                            <li>• Community Manager (1 poste)</li>
+                            <li>• Event Manager (2 postes)</li>
+                        </ul>
+                        <p class="text-gray-300 mt-4">
+                            Les candidatures sont ouvertes sur notre Discord. Nous recherchons des personnes expérimentées, disponibles et passionnées par le roleplay.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Article 4 -->
+                <article class="glass rounded-2xl p-8 hover-glow">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-600 to-pink-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold">Système anti-cheat implémenté</h2>
+                                <p class="text-gray-400">Il y a 2 semaines • Par DevTeam</p>
+                            </div>
+                        </div>
+                        <span class="bg-green-600/20 text-green-400 px-3 py-1 rounded-full text-sm">Terminé</span>
+                    </div>
+                    <div class="prose prose-gray max-w-none">
+                        <p class="text-gray-300 mb-4">
+                            Un système anti-cheat robuste et performant a été développé spécifiquement pour notre serveur, garantissant une expérience équitable pour tous.
+                        </p>
+                        <h3 class="text-xl font-bold mb-3">Fonctionnalités :</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>• Détection automatique des cheats courants</li>
+                            <li>• Système de logs détaillés</li>
+                            <li>• Bannissement automatique avec preuves</li>
+                            <li>• Surveillance en temps réel</li>
+                            <li>• Base de données partagée avec d'autres serveurs</li>
+                        </ul>
+                        <p class="text-gray-300 mt-4">
+                            Ce système a été testé rigoureusement et sera continuellement mis à jour pour rester efficace contre les nouvelles menaces.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Article 5 -->
+                <article class="glass rounded-2xl p-8 hover-glow">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-yellow-600 to-orange-600 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-map text-xl"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-2xl font-bold">Sélection de la map principale</h2>
+                                <p class="text-gray-400">Il y a 3 semaines • Par MapTeam</p>
+                            </div>
+                        </div>
+                        <span class="bg-green-600/20 text-green-400 px-3 py-1 rounded-full text-sm">Terminé</span>
+                    </div>
+                    <div class="prose prose-gray max-w-none">
+                        <p class="text-gray-300 mb-4">
+                            Après plusieurs semaines de tests et d'évaluations, nous avons sélectionné rp_downtown_v4c comme map principale pour le lancement du serveur.
+                        </p>
+                        <h3 class="text-xl font-bold mb-3">Critères de sélection :</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>• Optimisation pour 64 joueurs</li>
+                            <li>• Zones variées pour tous les types de roleplay</li>
+                            <li>• Architecture réaliste et immersive</li>
+                            <li>• Compatibilité avec nos addons personnalisés</li>
+                            <li>• Feedback positif de la communauté</li>
+                        </ul>
+                        <p class="text-gray-300 mt-4">
+                            Cette map offre le parfait équilibre entre roleplay civil, activités illégales et interactions gouvernementales.
+                        </p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 border-t border-gray-900 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">N</span>
+                        </div>
+                        <span class="text-xl font-bold">NEW DAWN RP</span>
+                    </div>
+                    <p class="text-gray-400">
+                        L'expérience roleplay premium sur Garry's Mod depuis 2020.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Liens rapides</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="reglement.html" class="hover:text-white transition">Règlement</a></li>
+                        <li><a href="boutique.html" class="hover:text-white transition">Boutique</a></li>
+                        <li><a href="forum.html" class="hover:text-white transition">Forum</a></li>
+                        <li><a href="wiki.html" class="hover:text-white transition">Wiki</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Communauté</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition">Discord</a></li>
+                        <li><a href="#" class="hover:text-white transition">Steam Group</a></li>
+                        <li><a href="#" class="hover:text-white transition">YouTube</a></li>
+                        <li><a href="#" class="hover:text-white transition">Twitter</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-server text-sm"></i>
+                            <span class="font-mono">En développement</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fab fa-discord text-sm"></i>
+                            <span>discord.gg/newdawnrp</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-envelope text-sm"></i>
+                            <span>support@newdawnrp.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-900">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm">
+                        © 2025 New Dawn RP. Tous droits réservés.
+                    </p>
+                    <div class="flex space-x-6 mt-4 md:mt-0">
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-discord text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-steam text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
